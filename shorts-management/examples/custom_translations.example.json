@@ -1,0 +1,29 @@
+{
+  "category_example": {
+    "en": {
+      "Hello": "Hello",
+      "Thank you": "Thank you",
+      "Please subscribe": "Please subscribe"
+    },
+    "es": {
+      "Hello": "Hola",
+      "Thank you": "Gracias",
+      "Please subscribe": "Por favor suscríbete"
+    },
+    "es-419": {
+      "Hello": "Hola",
+      "Thank you": "Gracias",
+      "Please subscribe": "Suscríbete por favor"
+    }
+  },
+  "common_phrases": {
+    "en": {
+      "new video": "new video",
+      "check it out": "check it out"
+    },
+    "es": {
+      "new video": "nuevo video",
+      "check it out": "míralo"
+    }
+  }
+}

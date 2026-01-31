@@ -1,0 +1,13 @@
+# Core dependencies shared across all modules
+# For module-specific dependencies, see individual module requirements.txt files
+
+google-api-python-client>=2.131.0
+google-auth>=2.34.0
+google-auth-oauthlib>=1.2.1
+isodate>=0.6.1
+
+# Optional dependencies (uncomment if needed):
+# openai>=1.3.0              # For translation-automation module
+# flask>=2.3.3               # For shorts-management web UI
+# psutil>=5.9.5              # For shorts-management monitoring
+# python-dotenv>=1.0.0       # For environment variable management

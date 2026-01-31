@@ -1,0 +1,16 @@
+{
+  "default_title_prefix": "",
+  "default_description_prefix": "Thanks for watching! ✨\n\n",
+  "default_visibility": "private",
+  "audience": "notMadeForKids",
+  "license": "youtube",
+  "language": "en",
+  "enable_languages": ["en", "es", "es-419"],
+  "push_to_subscribers": false,
+  "tags_template": [
+    "#shorts",
+    "#youtube",
+    "#youtuber"
+  ],
+  "fallback_to_gpt": false
+}

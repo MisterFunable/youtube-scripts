@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Shorts Processor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #c00;
+            margin-bottom: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #c00;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .control-panel {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .control-panel h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-primary {
+            background: #c00;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #a00;
+        }
+        
+        .btn-secondary {
+            background: #666;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #555;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .log-panel {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .log-panel h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .log-container {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 2px 0;
+        }
+        
+        .log-timestamp {
+            color: #666;
+            font-size: 11px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-processing {
+            background: #28a745;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-idle {
+            background: #6c757d;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .alert {
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 YouTube Shorts Processor</h1>
+            <p>Manage your video processing workflow</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="total-videos">{{ stats.total_videos }}</div>
+                <div class="stat-label">Total Videos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="processed-videos">{{ stats.processed_videos }}</div>
+                <div class="stat-label">Processed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="queue-videos">{{ stats.queue_videos }}</div>
+                <div class="stat-label">In Queue</div>
+            </div>
+        </div>
+        
+        <div class="control-panel">
+            <h2>Processing Controls</h2>
+            <div id="alert-container"></div>
+            
+            <div class="form-group">
+                <label for="limit">Limit (optional):</label>
+                <input type="number" id="limit" placeholder="Leave empty to process all videos">
+            </div>
+            
+            <div class="form-group">
+                <label for="resume-from">Resume from video number:</label>
+                <input type="number" id="resume-from" placeholder="e.g., 349 to start from 349th video">
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="start-btn" onclick="startProcessing()">
+                    <span class="status-indicator" id="status-indicator"></span>
+                    Start Processing
+                </button>
+                <button class="btn btn-secondary" id="dry-run-btn" onclick="startDryRun()">Dry Run</button>
+                <button class="btn btn-danger" id="stop-btn" onclick="stopProcessing()" disabled>Stop</button>
+                <button class="btn btn-secondary" id="resume-btn" onclick="resumeFrom()">Resume From</button>
+            </div>
+        </div>
+        
+        <div class="log-panel">
+            <h2>Processing Log</h2>
+            <div class="log-container" id="log-container">
+                <div class="log-entry">
+                    <span class="log-timestamp">{{ datetime.now().strftime('%H:%M:%S') }}</span>
+                    <span>System ready. Waiting for commands...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isProcessing = false;
+        
+        function updateStatus() {
+            const indicator = document.getElementById('status-indicator');
+            const startBtn = document.getElementById('start-btn');
+            const stopBtn = document.getElementById('stop-btn');
+            
+            if (isProcessing) {
+                indicator.className = 'status-indicator status-processing';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+            } else {
+                indicator.className = 'status-indicator status-idle';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+        }
+        
+        function showAlert(message, type = 'info') {
+            const container = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            container.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+        
+        function addLogEntry(message) {
+            const container = document.getElementById('log-container');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            
+            const timestamp = new Date().toLocaleTimeString();
+            entry.innerHTML = `<span class="log-timestamp">${timestamp}</span> <span>${message}</span>`;
+            
+            container.appendChild(entry);
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        async function startProcessing() {
+            const limit = document.getElementById('limit').value;
+            const data = {
+                limit: limit ? parseInt(limit) : null,
+                dry_run: false
+            };
+            
+            try {
+                const response = await fetch('/api/start', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                showAlert(result.message, result.success ? 'success' : 'error');
+                
+                if (result.success) {
+                    isProcessing = true;
+                    updateStatus();
+                    addLogEntry('Processing started...');
+                    startStatusPolling();
+                }
+            } catch (error) {
+                showAlert('Error starting processing: ' + error.message, 'error');
+            }
+        }
+        
+        async function startDryRun() {
+            const limit = document.getElementById('limit').value;
+            const data = {
+                limit: limit ? parseInt(limit) : null,
+                dry_run: true
+            };
+            
+            try {
+                const response = await fetch('/api/start', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                showAlert(result.message, result.success ? 'success' : 'error');
+                
+                if (result.success) {
+                    isProcessing = true;
+                    updateStatus();
+                    addLogEntry('Dry run started...');
+                    startStatusPolling();
+                }
+            } catch (error) {
+                showAlert('Error starting dry run: ' + error.message, 'error');
+            }
+        }
+        
+        async function stopProcessing() {
+            try {
+                const response = await fetch('/api/stop', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'}
+                });
+                
+                const result = await response.json();
+                showAlert(result.message, result.success ? 'success' : 'error');
+                
+                if (result.success) {
+                    isProcessing = false;
+                    updateStatus();
+                    addLogEntry('Processing stopped.');
+                }
+            } catch (error) {
+                showAlert('Error stopping processing: ' + error.message, 'error');
+            }
+        }
+        
+        async function resumeFrom() {
+            const startIndex = document.getElementById('resume-from').value;
+            if (!startIndex) {
+                showAlert('Please enter a start index', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/resume', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({start_index: parseInt(startIndex) - 1})
+                });
+                
+                const result = await response.json();
+                showAlert(result.message, result.success ? 'success' : 'error');
+                
+                if (result.success) {
+                    addLogEntry(result.message);
+                    updateStats();
+                }
+            } catch (error) {
+                showAlert('Error resuming: ' + error.message, 'error');
+            }
+        }
+        
+        async function updateStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const stats = await response.json();
+                
+                document.getElementById('total-videos').textContent = stats.total_videos;
+                document.getElementById('processed-videos').textContent = stats.processed_videos;
+                document.getElementById('queue-videos').textContent = stats.queue_videos;
+            } catch (error) {
+                console.error('Error updating stats:', error);
+            }
+        }
+        
+        function startStatusPolling() {
+            const pollInterval = setInterval(async () => {
+                try {
+                    const response = await fetch('/api/status');
+                    const status = await response.json();
+                    
+                    if (!status.is_processing && isProcessing) {
+                        isProcessing = false;
+                        updateStatus();
+                        addLogEntry('Processing completed.');
+                        clearInterval(pollInterval);
+                    }
+                    
+                    // Update log with new entries
+                    if (status.log && status.log.length > 0) {
+                        const container = document.getElementById('log-container');
+                        const currentEntries = container.children.length;
+                        
+                        status.log.forEach((entry, index) => {
+                            if (index >= currentEntries - 1) {
+                                addLogEntry(entry.message);
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error polling status:', error);
+                }
+            }, 2000);
+        }
+        
+        // Initial setup
+        updateStatus();
+        updateStats();
+        
+        // Update stats every 30 seconds
+        setInterval(updateStats, 30000);
+    </script>
+</body>
+</html>

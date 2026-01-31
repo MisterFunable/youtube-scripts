@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  youtube-shorts-ui:
+    build: .
+    container_name: youtube-shorts-processor
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - ../:/app/..  # Mount the entire parent directory
+    environment:
+      - FLASK_ENV=production
+      - PYTHONPATH=/app:/app/..
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

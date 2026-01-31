@@ -1,0 +1,132 @@
+# YouTube Automations - Comprehensive .gitignore
+
+# ============================================================================
+# CRITICAL SECURITY: Never commit these files
+# ============================================================================
+
+# API Credentials & Authentication
+client_secret*.json
+token.pickle
+token.json
+*.pickle
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# API Keys (hardcoded patterns to catch)
+**/secrets/
+**/credentials/
+
+# ============================================================================
+# Generated Data Files (may contain sensitive channel data)
+# ============================================================================
+
+# Video Lists and Metadata
+video_list.json
+videos_today.json
+shorts_list.json
+video_queue.json
+processed.json
+
+# Translation and Analysis Outputs
+custom_translations.json
+video_settings.json
+frequent_words.json
+
+# Backups (often contain sensitive data)
+backups/
+*_backup_*.json
+*.backup
+
+# ============================================================================
+# Development & System Files
+# ============================================================================
+
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# ============================================================================
+# Repository Cleanup
+# ============================================================================
+
+# Review folder (for manual inspection before deletion)
+.github-ready-review/
+
+# Duplicate files
+*copy*.json
+*copy*.py
+* copy *
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Logs
+*.log
+logs/
+
+# ============================================================================
+# Docker (keep dockerfiles, ignore runtime artifacts)
+# ============================================================================
+.dockerignore
+docker-compose.override.yml
+
+# ============================================================================
+# Module-Specific Ignores
+# ============================================================================
+
+# Shorts Management
+shorts-management/custom_translations.json
+shorts-management/video_settings.json
+shorts-management/videos_today.json
+shorts-management/.env
+
+# Translation Automation
+translation-automation/video_queue.json
+translation-automation/processed.json
+translation-automation/.env
+
+# Video Fetching
+video-fetching/video_list.json
+
+# Metrics Analysis
+metrics-analysis/output/
+metrics-analysis/results/

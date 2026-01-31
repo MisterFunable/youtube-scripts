@@ -1,0 +1,24 @@
+{
+  "exclude": {
+    "videoIds": [],
+    "titleContains": [],
+    "titleRegex": "",
+    "excludeShorts": true,
+    "maxDurationSecondsForShorts": 60
+  },
+  "filters": {
+    "minViews": 0,
+    "minDurationSeconds": 0,
+    "dateRange": {
+      "start": null,
+      "end": null
+    }
+  },
+  "insights": {
+    "metric": "viewCount",
+    "topVideosLimit": 10,
+    "normalizeByDuration": false,
+    "popularityPeriod": "month"
+  }
+}
+
