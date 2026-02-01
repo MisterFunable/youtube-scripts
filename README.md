@@ -1,4 +1,18 @@
-# YouTube Automations - Pre-N8N Implementation
+<div align="right">
+
+[![n8n](https://img.shields.io/badge/n8n-EA4B71?style=for-the-badge&logo=n8n&logoColor=white)](https://n8n.io)
+[![YouTube API](https://img.shields.io/badge/YouTube_API-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://developers.google.com/youtube)
+[![OpenAI API](https://img.shields.io/badge/OpenAI_API-412991?style=for-the-badge&logo=openai&logoColor=white)](https://platform.openai.com)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
+[![Built with Cursor](https://img.shields.io/badge/Built_with-Cursor-000000?style=for-the-badge&logo=cursor&logoColor=white)](https://cursor.sh)
+
+</div>
+
+# YouTube Automation Toolkit - Pre-N8N Implementation
+
+A powerful Python-based automation suite for YouTube channel management, featuring video analytics, content translation, and Shorts workflow automation. Built before migrating to N8N workflows - preserved as reference implementation.
+
+---
 
 Python-based automation tools for YouTube channel management, created before migrating to N8N workflows. Preserved as a reference implementation and backup of functional features.
 
